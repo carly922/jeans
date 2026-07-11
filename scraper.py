@@ -14,6 +14,7 @@ def scrape(url):
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
 
+    brandName = (soup.title.string).split(" | ", 1)[1]
     #stores page title, usually includes item name IN THIS CASE it splits off the brand name
     itemName = (soup.title.string).split(" | ")[0]
     #finds item URL
@@ -32,17 +33,18 @@ def scrape(url):
     itemImg = rootUrl + imageStem
 
     #finds string of current sale price on page
-    priceString = soup.find(class_=re.compile("current-sale-price")).text
+    priceString = soup.find(class_=re.compile(r"current.*price")).text
     #converts price to a numerical value
     itemPrice = float(priceString.replace("$", ""))
 
-    return itemName, itemUrl, itemPID, rootUrl, itemImg, itemPrice
+    return brandName, itemName, itemUrl, itemPID, rootUrl, itemImg, itemPrice,
 
 def connect():
     return mysql.connector.connect( host=mHost, user=mUser, password=mPassword, database=mDatabase )
 
-def addItem(itemName, itemUrl, itemPID, rootUrl, itemImg, itemPrice):
+def addItem(brandName, itemName, itemUrl, itemPID, rootUrl, itemImg, itemPrice):
     #VALUES (
+    #   p_brandName
     #   p_rootUrl,
     #   p_itemUrl,
     #   p_itemImg,
@@ -53,7 +55,7 @@ def addItem(itemName, itemUrl, itemPID, rootUrl, itemImg, itemPrice):
     conn = connect()
     cursor = conn.cursor()
 
-    cursor.callproc("AddItem", [rootUrl, itemUrl, itemImg, itemPID, itemName, itemPrice])
+    cursor.callproc("AddItem", [brandName, rootUrl, itemUrl, itemImg, itemPID, itemName, itemPrice])
     conn.commit()
 
     print("Item " + itemName + " added.")

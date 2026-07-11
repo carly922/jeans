@@ -22,7 +22,6 @@ def get_items():
 @app.route("/")
 def home():
     items = get_items()
-    print(items)   # add this
     return render_template("index.html", items=items)
 
 

@@ -1,0 +1,9 @@
+.parent-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  gap: 10px;     /* Optional: adds uniform space between the boxes */
+}
+
+.box {
+  flex: 1;       /* Optional: forces all boxes to share width equally */
+}
