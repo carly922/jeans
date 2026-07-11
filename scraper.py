@@ -62,7 +62,12 @@ def addItem(itemName, itemUrl, itemPID, rootUrl, itemImg, itemPrice):
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    url = input("Paste the full URL of your item: ")
-    item = scrape(url)
-    addItem(*item)
+    continueProgram = 1
+    while continueProgram:
+        url = input("Paste the full URL of your item: ")
+        item = scrape(url)
+        addItem(*item)
+        userContinue = input("Would you like to add another item? (y/n)")
+        if userContinue == "n":
+            continueProgram = 0
 
