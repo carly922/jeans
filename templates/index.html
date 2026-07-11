@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Jeans</title>
+</head>
+
+<body>
+
+<h1>Old Navy Jeans</h1>
+
+{% for item in items %}
+
+<div>
+    <h2>{{ item.itemName }}</h2>
+
+    <img src="{{ item.itemImg }}" width="200">
+
+    <p>${{ item.itemPrice }}</p>
+
+    <a href="{{ item.itemUrl }}">View Product</a>
+</div>
+
+{% endfor %}
+
+</body>
+</html>
