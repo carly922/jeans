@@ -1,5 +1,6 @@
 import requests
 import re
+import json
 import mysql.connector
 from bs4 import BeautifulSoup
 
@@ -9,8 +10,27 @@ mUser = "root"
 mPassword = "root"
 mDatabase = "jeans"
 
+def programRun():
+    continueProgram = 1
+    while continueProgram:
+        url = input("Paste the full URL of your item: ")
+        item = definePageType(url)
+        addItem(*item)
+        userContinue = input("Would you like to add another item? (y/n)")
+        if userContinue == "n":
+            continueProgram = 0
+
+def definePageType(url):
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    if soup.find("script", type="application/json")
+        isJSON = 1
+        elif soup.find("script", type="text/ld+json"):
+            isJSON = 1
+
+
+
 def scrape(url):
-    #url = "https://oldnavy.gap.com/browse/product.do?pid=846874002&vid=1&pcid=85729&cid=85729&nav=meganav%3AWomen%3AWomen%27s+Bottoms%3AJeans#pdp-page-content"
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
 
@@ -64,12 +84,5 @@ def addItem(brandName, itemName, itemUrl, itemPID, rootUrl, itemImg, itemPrice):
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    continueProgram = 1
-    while continueProgram:
-        url = input("Paste the full URL of your item: ")
-        item = scrape(url)
-        addItem(*item)
-        userContinue = input("Would you like to add another item? (y/n)")
-        if userContinue == "n":
-            continueProgram = 0
+    programRun()
 
